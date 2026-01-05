@@ -2,14 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for
 import cloudinary
 import cloudinary.uploader
 import sqlite3
+import os
 
 app = Flask(__name__)
 
 # Cloudinary config
+
 cloudinary.config(
-    cloud_name="ddi65y7dzo",
-    api_key="7883774377596374",
-    api_secret="jhSUCH7l_n-X35e94JL7LVF5IJw"
+    cloud_name=os.environ.get("di65y7dzo"),
+    api_key=os.environ.get("C883774377596374"),
+    api_secret=os.environ.get("jhSUCH7l_n-X35e94JL7LVF5IJw")
 )
 
 # Database setup
@@ -66,4 +68,6 @@ def delete(id):
     return redirect(url_for("index"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
