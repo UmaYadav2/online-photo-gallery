@@ -16,8 +16,14 @@ cloudinary.config(
 # ---------------- DATABASE CONFIG ----------------
 DATABASE_URL = os.environ.get("postgresql://photo_gallery_db_1j9l_user:ryRHtppVU1e9OXDQrvsyyLw9OTgU0b9v@dpg-d5dt71hr0fns73aqjis0-a/photo_gallery_db_1j9l")
 
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set")
+
 def get_db():
-    return psycopg2.connect(DATABASE_URL, sslmode="require")
+    return psycopg2.connect(
+        DATABASE_URL,
+        sslmode="require"
+    )
 
 def init_db():
     conn = get_db()
@@ -33,11 +39,12 @@ def init_db():
     conn.close()
 
 # Create table at startup
-init_db()
+
 
 # ---------------- ROUTES ----------------
 @app.route("/")
 def index():
+    init_db()
     conn = get_db()
     cur = conn.cursor()
     cur.execute("SELECT id, url FROM photos ORDER BY uploaded_at DESC")
