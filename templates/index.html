@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Online Photo Gallery</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-
 <body>
-    <h1>Online Photo Gallery</h1>
 
-    <a href="/upload">Upload Photo</a>
+<h1>Online Photo Gallery</h1>
 
-    <div class="gallery">
-        {% for img in images %}
-        <div class="photo">
-            <img src="{{ img[0] }}">
-        </div>
-        {% endfor %}
+<a class="upload-btn" href="{{ url_for('upload') }}">Upload Photo</a>
+
+<div class="gallery">
+    {% for img in images %}
+    <div class="photo">
+        <img src="{{ img[1] }}" alt="Photo">
+        <a class="delete-btn" href="{{ url_for('delete', image_id=img[0]) }}">Delete</a>
     </div>
+    {% endfor %}
+</div>
 
 </body>
-
 </html>
