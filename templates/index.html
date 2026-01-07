@@ -1,24 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Online Photo Gallery</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
-<h1>Online Photo Gallery</h1>
-
-<a class="upload-btn" href="{{ url_for('upload') }}">Upload Photo</a>
-
-<div class="gallery">
-    {% for img in images %}
-    <div class="photo">
-        <img src="{{ img[1] }}" alt="Photo">
-        <a class="delete-btn" href="{{ url_for('delete', image_id=img[0]) }}">Delete</a>
+    <!-- Header -->
+    <div class="header">
+        <img src="https://cdn-icons-png.flaticon.com/512/346/346167.png" class="flower" alt="flower">
+        <h1 class="app-title">Photo Gallery</h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/346/346167.png" class="flower" alt="flower">
     </div>
-    {% endfor %}
-</div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2>Online Photo Gallery Application</h2>
+        <h3>Upload Photo</h3>
+
+        <a href="{{ url_for('upload_page') }}">
+            <button class="upload-btn">Upload Image</button>
+        </a>
+    </div>
+
+    <!-- Uploaded Images -->
+    <div class="uploaded-gallery">
+        {% for image in images %}
+        <img src="{{ image[1] }}" class="uploaded-photo">
+        {% endfor %}
+    </div>
+
+    <!-- Background Gallery -->
+    <div class="gallery">
+        <img src="https://picsum.photos/500/350?random=1" class="photo photo1">
+        <img src="https://picsum.photos/500/350?random=2" class="photo photo2">
+        <img src="https://picsum.photos/500/350?random=3" class="photo photo3">
+        <img src="https://picsum.photos/500/350?random=4" class="photo photo4">
+        <img src="https://picsum.photos/500/350?random=5" class="photo photo5">
+    </div>
 
 </body>
+
 </html>
