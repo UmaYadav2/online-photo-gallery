@@ -9,7 +9,7 @@ app = Flask(__name__)
 # ---------------- CLOUDINARY CONFIG ----------------
 cloudinary.config(
     cloud_name=os.environ.get("di65y7dzo"),
-    api_key=os.environ.get("C883774377596374"),
+    api_key=os.environ.get("883774377596374"),
     api_secret=os.environ.get("jhSUCH7l_n-X35e94JL7LVF5IJw")
 )
 
