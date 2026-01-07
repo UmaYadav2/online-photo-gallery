@@ -8,16 +8,16 @@ app = Flask(__name__)
 
 # ---------------- CLOUDINARY CONFIG ----------------
 cloudinary.config(
-    cloud_name=os.environ.get("di65y7dzo"),
-    api_key=os.environ.get(883774377596374),
-    api_secret=os.environ.get(jhSUCH7l_n-X35e94JL7LVF5IJw)
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
 )
 
-
+# ---------------- DATABASE ----------------
 def get_db():
     database_url = os.environ.get("DATABASE_URL")
     return psycopg2.connect(database_url, sslmode="require")
-
 
 def init_db():
     conn = get_db()
@@ -32,13 +32,11 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Create table at startup
-
+init_db()
 
 # ---------------- ROUTES ----------------
 @app.route("/")
 def index():
-    init_db()
     conn = get_db()
     cur = conn.cursor()
     cur.execute("SELECT id, url FROM photos ORDER BY uploaded_at DESC")
@@ -56,7 +54,6 @@ def upload():
         return "No file part", 400
 
     file = request.files["photo"]
-
     if file.filename == "":
         return "No selected file", 400
 
@@ -65,17 +62,11 @@ def upload():
 
     conn = get_db()
     cur = conn.cursor()
-    cur.execute(
-        "INSERT INTO photos (image_url) VALUES (%s)",
-        (image_url,)
-    )
+    cur.execute("INSERT INTO photos (url) VALUES (%s)", (image_url,))
     conn.commit()
-    cur.close()
     conn.close()
 
     return redirect(url_for("index"))
-
-
 
 @app.route("/delete/<int:image_id>")
 def delete(image_id):
@@ -86,7 +77,7 @@ def delete(image_id):
     conn.close()
     return redirect(url_for("index"))
 
-# ---------------- RUN APP ----------------
+# ---------------- RUN ----------------
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
