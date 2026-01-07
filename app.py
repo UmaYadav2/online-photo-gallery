@@ -13,17 +13,11 @@ cloudinary.config(
     api_secret=os.environ.get("jhSUCH7l_n-X35e94JL7LVF5IJw")
 )
 
-# ---------------- DATABASE CONFIG ----------------
-DATABASE_URL = os.environ.get("postgresql://photo_gallery_db_1j9l_user:ryRHtppVU1e9OXDQrvsyyLw9OTgU0b9v@dpg-d5dt71hr0fns73aqjis0-a/photo_gallery_db_1j9l")
-
-if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL environment variable is not set")
 
 def get_db():
-    return psycopg2.connect(
-        DATABASE_URL,
-        sslmode="require"
-    )
+    database_url = os.environ.get("DATABASE_URL")
+    return psycopg2.connect(database_url, sslmode="require")
+
 
 def init_db():
     conn = get_db()
