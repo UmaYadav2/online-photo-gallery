@@ -46,26 +46,36 @@ def index():
     conn.close()
     return render_template("index.html", images=images)
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload", methods=["POST"])
 def upload():
-    if request.method == "POST":
-        file = request.files.get("photo")
-        if file:
-            result = cloudinary.uploader.upload(file)
-            image_url = result["secure_url"]
+    if "photo" not in request.files:
+        return "No file part", 400
 
-            conn = get_db()
-            cur = conn.cursor()
-            cur.execute(
-                "INSERT INTO photos (url) VALUES (%s)",
-                (image_url,)
-            )
-            conn.commit()
-            conn.close()
+    file = request.files["photo"]
+
+    if file.filename == "":
+        return "No selected file", 400
+
+    try:
+        result = cloudinary.uploader.upload(file)
+        image_url = result["secure_url"]
+
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "INSERT INTO photos (image_url) VALUES (%s)",
+            (image_url,)
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
 
         return redirect(url_for("index"))
 
-    return render_template("upload.html")
+    except Exception as e:
+        print(e)
+        return "Upload failed", 500
+
 
 @app.route("/delete/<int:image_id>")
 def delete(image_id):
