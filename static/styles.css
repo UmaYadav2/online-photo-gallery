@@ -92,3 +92,26 @@ body {
 .photo3 { bottom: 80px; left: 40%; transform: rotate(-4deg); }
 .photo4 { top: 200px; right: 120px; transform: rotate(8deg); }
 .photo5 { bottom: 90px; right: 160px; transform: rotate(-10deg); }
+
+/* Image Card */
+.image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}

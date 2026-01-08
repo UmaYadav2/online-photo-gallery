@@ -27,11 +27,19 @@
     </div>
 
     <!-- Uploaded Images -->
-    <div class="uploaded-gallery">
-        {% for image in images %}
-        <img src="{{ image[1] }}" class="uploaded-photo">
-        {% endfor %}
-    </div>
+<div class="uploaded-gallery">
+    {% for image in images %}
+        <div class="image-card">
+            <img src="{{ image[1] }}" class="uploaded-photo">
+
+            <a href="{{ url_for('delete', image_id=image[0]) }}"
+               onclick="return confirm('Delete this image?')">
+                <button class="delete-btn">Delete</button>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
 
     <!-- Background Gallery -->
     <div class="gallery">
